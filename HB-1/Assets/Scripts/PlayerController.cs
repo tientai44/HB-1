@@ -27,23 +27,22 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         isGrounded = CheckGrounded();
-
         horizontal = Input.GetAxisRaw("Horizontal");
-      
+   
+        // In attack, player can't move
         if (isAttack)
         {
             rb.velocity = Vector2.zero;
             return;
         }
-        if (isGrounded)
+        // when in jumping, player can't change animation
+        if (isGrounded && !isJumping)
         {
-            if (isJumping)
-            {
-                return;
-            }
+
             //jump
             if (Input.GetKeyDown(KeyCode.Space))
             {
+                Debug.Log("Space");
                 Jump();
             }
             //run
@@ -117,7 +116,7 @@ public class PlayerController : MonoBehaviour
     private void ResetAttack()
     {
         isAttack = false;
-        ChangeAnim("i");
+        ChangeAnim("");
     }
     private void ChangeAnim(string animName)
     {
