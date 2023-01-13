@@ -108,9 +108,9 @@ public class PlayerController : MonoBehaviour
     {
 
         // Check Player on ground 
-        Debug.DrawLine(transform.position + Vector3.down , transform.position + Vector3.down * 1.1f, Color.red);
+        Debug.DrawLine(transform.position  , transform.position + Vector3.down * 1.1f, Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.down , Vector2.down, 0.1f, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position  , Vector2.down, 1.1f, groundLayer);
         if (hit.collider != null)
         {
             if(isJumping)
@@ -174,5 +174,10 @@ public class PlayerController : MonoBehaviour
     internal void SavePoint()
     {
         savePoint = transform.position;
+    }
+
+    public bool CheckJumping()
+    {
+        return isJumping;
     }
 }
