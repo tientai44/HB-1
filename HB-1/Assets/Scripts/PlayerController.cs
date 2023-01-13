@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -12,20 +13,30 @@ public class PlayerController : MonoBehaviour
     private bool isGrounded;
     private bool isJumping;
     private bool isAttack;
-
+    private bool isDeath=false;
+    private int coin = 0;
     private float horizontal;
 
     private string currentAnimName;
+
+    private Vector3 savePoint;
     
     // Start is called before the first frame update
     void Start()
     {
+        SavePoint();
+        OnInit();
         
     }
 
     // Update is called once per frame
     void Update()
     {
+        if (isDeath)
+        {
+            return;
+        }
+        
         isGrounded = CheckGrounded();
         horizontal = Input.GetAxisRaw("Horizontal");
    
@@ -42,7 +53,6 @@ public class PlayerController : MonoBehaviour
             //jump
             if (Input.GetKeyDown(KeyCode.Space))
             {
-                Debug.Log("Space");
                 Jump();
             }
             //run
@@ -85,13 +95,30 @@ public class PlayerController : MonoBehaviour
 
     }
 
+    private void OnInit()
+    {
+        isDeath = false;
+        isAttack = false;
+
+        transform.position = savePoint;
+       
+        ChangeAnim("idle");
+    }
     private bool CheckGrounded()
     {
-        // Check Player on ground 
-        Debug.DrawLine(transform.position, transform.position+Vector3.down*1.2f,Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position, Vector2.down, 1.2f, groundLayer);
-        return hit.collider!=null;
+        // Check Player on ground 
+        Debug.DrawLine(transform.position + Vector3.down , transform.position + Vector3.down * 1.1f, Color.red);
+
+        RaycastHit2D hit = Physics2D.Raycast(transform.position + Vector3.down , Vector2.down, 0.1f, groundLayer);
+        if (hit.collider != null)
+        {
+            if(isJumping)
+                return false;
+            return true;
+        }
+        return false;
+
     }
 
     private void Attack() {
@@ -128,5 +155,24 @@ public class PlayerController : MonoBehaviour
 
             anim.SetTrigger(currentAnimName);
         }
+    }
+
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin") {
+            coin++;
+            Destroy(collision.gameObject);
+        }
+        if (collision.tag == "DeathZone") {
+            ChangeAnim("die");
+            isDeath = true;
+
+            Invoke(nameof(OnInit), 1);
+        }
+    }
+
+    internal void SavePoint()
+    {
+        savePoint = transform.position;
     }
 }
