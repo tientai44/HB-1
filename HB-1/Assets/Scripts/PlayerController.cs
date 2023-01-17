@@ -3,31 +3,26 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PlayerController : MonoBehaviour
+public class PlayerController : CharacterController
 {
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private LayerMask groundLayer;
+    [SerializeField] private KunaiThrow kunaiPrefab;
+    [SerializeField] private Transform throwPoint;
     [SerializeField] private float speed = 5.0f;
-    [SerializeField] private Animator anim;
     [SerializeField] private float jumpForce=350;
+    [SerializeField] private GameObject attackArea;
     private bool isGrounded;
     private bool isJumping;
     private bool isAttack;
     private bool isDeath=false;
     private int coin = 0;
     private float horizontal;
-
-    private string currentAnimName;
+    
+   
 
     private Vector3 savePoint;
     
-    // Start is called before the first frame update
-    void Start()
-    {
-        SavePoint();
-        OnInit();
-        
-    }
 
     // Update is called once per frame
     void Update()
@@ -95,14 +90,26 @@ public class PlayerController : MonoBehaviour
 
     }
 
-    private void OnInit()
+    override public void OnInit()
     {
+        base.OnInit();
         isDeath = false;
         isAttack = false;
-
         transform.position = savePoint;
-       
         ChangeAnim("idle");
+        DeActiveAttack();
+        SavePoint();
+    }
+    protected override void OnDeath()
+    {
+        base.OnDeath();
+        OnInit();
+    }
+
+    public override void OnDespawn()
+    {
+        base.OnDespawn();
+        
     }
     private bool CheckGrounded()
     {
@@ -126,12 +133,14 @@ public class PlayerController : MonoBehaviour
         ChangeAnim("attack");
 
         Invoke(nameof(ResetAttack), 0.5f);
+        ActiveAttack();
+        Invoke(nameof(DeActiveAttack), 0.5f);
     }
 
     private void Throw() {
         isAttack = true;
         ChangeAnim("throw");
-
+        Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
         Invoke(nameof(ResetAttack), 0.5f);
     }
 
@@ -145,39 +154,39 @@ public class PlayerController : MonoBehaviour
         isAttack = false;
         ChangeAnim("");
     }
-    private void ChangeAnim(string animName)
-    {
-        if(currentAnimName != animName)
-        {
-            anim.ResetTrigger(animName);
-
-            currentAnimName = animName;
-
-            anim.SetTrigger(currentAnimName);
-        }
-    }
-
-    private void OnTriggerEnter2D(Collider2D collision)
-    {
-        if (collision.tag == "Coin") {
-            coin++;
-            Destroy(collision.gameObject);
-        }
-        if (collision.tag == "DeathZone") {
-            ChangeAnim("die");
-            isDeath = true;
-
-            Invoke(nameof(OnInit), 1);
-        }
-    }
+    
 
     internal void SavePoint()
     {
+        Debug.Log("Get a save point");
         savePoint = transform.position;
     }
 
     public bool CheckJumping()
     {
         return isJumping;
+    }
+    
+    private void ActiveAttack()
+    {
+        attackArea.SetActive(true);
+    }
+    private void DeActiveAttack()
+    {
+        attackArea.SetActive(false);
+    }
+    private void OnTriggerEnter2D(Collider2D collision)
+    {
+        if (collision.tag == "Coin")
+        {
+            coin++;
+            Destroy(collision.gameObject);
+        }
+        if (collision.tag == "DeathZone")
+        {
+            ChangeAnim("die");
+            isDeath = true;
+            Invoke(nameof(OnInit), 1);
+        }
     }
 }
