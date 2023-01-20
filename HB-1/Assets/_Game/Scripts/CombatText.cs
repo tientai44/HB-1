@@ -1,18 +1,21 @@
 using System.Collections;
 using System.Collections.Generic;
+using TMPro;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class CombatText : MonoBehaviour
 {
-    // Start is called before the first frame update
-    void Start()
+    [SerializeField] TextMeshProUGUI hpText;
+    public void OnInit(float damage)
     {
-        
+        Debug.Log("CombatText");
+        hpText.text = damage.ToString();
+        Invoke(nameof(OnDespawn), 1f);
     }
 
-    // Update is called once per frame
-    void Update()
+    public void OnDespawn()
     {
-        
+        Destroy(gameObject);
     }
 }
