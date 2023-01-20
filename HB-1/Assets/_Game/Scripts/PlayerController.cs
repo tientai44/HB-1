@@ -22,7 +22,11 @@ public class PlayerController : CharacterController
    
 
     private Vector3 savePoint;
-    
+
+    //private void Awake()
+    //{
+    //    coin = PlayerPrefs.GetInt("coin", 0);
+    //}
 
     // Update is called once per frame
     void Update()
@@ -33,7 +37,7 @@ public class PlayerController : CharacterController
         }
         
         isGrounded = CheckGrounded();
-        horizontal = Input.GetAxisRaw("Horizontal");
+        //horizontal = Input.GetAxisRaw("Horizontal");
    
         // In attack, player can't move
         if (isAttack)
@@ -98,6 +102,7 @@ public class PlayerController : CharacterController
         ChangeAnim("idle");
         DeActiveAttack();
         SavePoint();
+        UIManager.instance.SetCoin(coin);
     }
     protected override void OnDeath()
     {
@@ -127,7 +132,7 @@ public class PlayerController : CharacterController
 
     }
 
-    private void Attack() {
+    public void Attack() {
         isAttack = true;
         ChangeAnim("attack");
 
@@ -136,14 +141,14 @@ public class PlayerController : CharacterController
         Invoke(nameof(DeActiveAttack), 0.5f);
     }
 
-    private void Throw() {
+    public void Throw() {
         isAttack = true;
         ChangeAnim("throw");
         Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
         Invoke(nameof(ResetAttack), 0.5f);
     }
 
-    private void Jump() {
+    public void Jump() {
         isJumping = true;
         ChangeAnim("jump");
         rb.AddForce(jumpForce * Vector2.up);
@@ -174,11 +179,18 @@ public class PlayerController : CharacterController
     {
         attackArea.SetActive(false);
     }
+
+    public void SetMove(float horizontal)
+    {
+        this.horizontal = horizontal;
+    }
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Coin")
         {
             coin++;
+            //PlayerPrefs.SetInt("coin", coin);
+            UIManager.instance.SetCoin(coin);
             Destroy(collision.gameObject);
         }
         if (collision.tag == "DeathZone")
@@ -187,4 +199,6 @@ public class PlayerController : CharacterController
             Invoke(nameof(OnInit), 1);
         }
     }
+
+    
 }
