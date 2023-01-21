@@ -38,7 +38,7 @@ public class PlayerController : CharacterController
         
         isGrounded = CheckGrounded();
         //horizontal = Input.GetAxisRaw("Horizontal");
-   
+
         // In attack, player can't move
         if (isAttack)
         {
@@ -107,7 +107,7 @@ public class PlayerController : CharacterController
     protected override void OnDeath()
     {
         base.OnDeath();
-        OnInit();
+        Invoke(nameof(OnInit),1f);
     }
 
     public override void OnDespawn()
@@ -133,15 +133,22 @@ public class PlayerController : CharacterController
     }
 
     public void Attack() {
+        if (isAttack || isJumping || !isGrounded)
+        {
+            return;
+        }
         isAttack = true;
         ChangeAnim("attack");
-
-        Invoke(nameof(ResetAttack), 0.5f);
         ActiveAttack();
+        Invoke(nameof(ResetAttack), 0.5f);
         Invoke(nameof(DeActiveAttack), 0.5f);
     }
 
     public void Throw() {
+        if (isAttack || isJumping || !isGrounded)
+        {
+            return;
+        }
         isAttack = true;
         ChangeAnim("throw");
         Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
@@ -149,6 +156,10 @@ public class PlayerController : CharacterController
     }
 
     public void Jump() {
+        if (isJumping || !isGrounded)
+        {
+            return;
+        }
         isJumping = true;
         ChangeAnim("jump");
         rb.AddForce(jumpForce * Vector2.up);
