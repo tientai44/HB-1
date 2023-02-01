@@ -142,6 +142,8 @@ MonoBehaviour:
   anim: {fileID: 7168232405781517732}
   healthBar: {fileID: 0}
   combatTextPrefab: {fileID: -4303674423797491892, guid: 67b76926b8cd44544bc7948b656dde4e, type: 3}
+  combatTextRecoverPrefab: {fileID: 5614587491074878202, guid: c52a9c069207de9408a7fc5b522e3f30, type: 3}
+  hpRecover: 0
   attackRange: 2
   moveSpeed: 3
   rb: {fileID: 7168232404199785737}

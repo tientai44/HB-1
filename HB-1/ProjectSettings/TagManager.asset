@@ -8,6 +8,8 @@ TagManager:
   - DeathZone
   - EnemyWall
   - Enemy
+  - Obstacle
+  - Rope
   layers:
   - Default
   - TransparentFX

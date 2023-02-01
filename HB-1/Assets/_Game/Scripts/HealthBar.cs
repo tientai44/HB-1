@@ -28,7 +28,19 @@ public class HealthBar : MonoBehaviour
 
     public void SetNewHP(float hp)
     {
+        if (hp > maxHp)
+        {
+            hp= maxHp;
+        }
         this.hp = hp;
         //imageFill.fillAmount=hp/maxHp;
+    }
+    public bool IsFull()
+    {
+        if (hp == maxHp)
+        {
+            return true;
+        }
+        return false;
     }
 }

@@ -107,8 +107,15 @@ public class EnemyController : CharacterController
         {
             ChangeDirection(!isRight);
         }
+       
     }
-
+    private void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.collider.tag == "Obstacle")
+        {
+            ChangeDirection(!isRight);
+        }
+    }
     public void ChangeDirection(bool isRight)
     {
         this.isRight = isRight;

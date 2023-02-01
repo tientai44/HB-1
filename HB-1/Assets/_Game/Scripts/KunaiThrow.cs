@@ -33,5 +33,9 @@ public class KunaiThrow : MonoBehaviour
             Instantiate(hitVFX, transform.position, transform.rotation);
             OnDeSpawn();
         }
+        if(collision.tag == "Obstacle")
+        {
+            OnDeSpawn();
+        }
     }
 }

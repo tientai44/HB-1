@@ -13,13 +13,15 @@ public class PlayerController : CharacterController
     [SerializeField] private float jumpForce=350;
     [SerializeField] private GameObject attackArea;
     private bool isGrounded;
+    private bool isRope;
     private bool isJumping;
     private bool isAttack;
+    private bool isSleep=false;
     private bool isDeath=false;
     private int coin = 0;
     private float horizontal;
-    
-   
+    private float vertical;
+
 
     private Vector3 savePoint;
 
@@ -30,23 +32,24 @@ public class PlayerController : CharacterController
 
     // Update is called once per frame
     void Update()
-    {
+    { 
         if (IsDead)
         {
             return;
         }
         
-        isGrounded = CheckGrounded();
-        //horizontal = Input.GetAxisRaw("Horizontal");
 
+        isGrounded = CheckGrounded();
+        horizontal = Input.GetAxisRaw("Horizontal");
+        vertical = Input.GetAxisRaw("Vertical");
         // In attack, player can't move
-        if (isAttack)
+        if (isAttack && isGrounded)
         {
             rb.velocity = Vector2.zero;
             return;
         }
         // when in jumping, player can't change animation
-        if (isGrounded && !isJumping)
+        //if (isGrounded && !isJumping)
         {
 
             //jump
@@ -55,24 +58,46 @@ public class PlayerController : CharacterController
                 Jump();
             }
             //run
-            if (Mathf.Abs(horizontal) > 0.1f)
+            if (Mathf.Abs(horizontal) > 0.1f && isGrounded)
             {
                 ChangeAnim("run");
             }
             //attack
-            if (Input.GetKeyDown(KeyCode.C))
+            if (Input.GetKeyDown(KeyCode.J))
             {
                 Attack();
+            }
+            if (Input.GetKeyDown(KeyCode.K))
+            {
+                Attack1();
+            }
+            if (Input.GetKeyDown(KeyCode.L))
+            {
+                Attack2();
             }
             //throw
             if (Input.GetKeyDown(KeyCode.V))
             {
                 Throw();
-            } 
+            }
+            //sleep
+            if (Input.GetKeyDown(KeyCode.U))
+            {
+                Sleep();
+            }
         }
-
+        // Check Recovery
+        if (isSleep)
+        {
+            TimeRecoverCount -= Time.deltaTime;
+        }
+        if (TimeRecoverCount < 0)
+        {
+            Recover(HpRecover);
+            TimeRecoverCount = TimeRecover;
+        }
         // Check falling
-        if (rb.velocity.y < 0 && !isGrounded)
+        if (rb.velocity.y < 0 && !isGrounded && !isRope)
         {
             ChangeAnim("fall");
             isJumping = false;
@@ -80,16 +105,28 @@ public class PlayerController : CharacterController
         // Moving
         if (Mathf.Abs(horizontal) > 0.1f)
         {
-            rb.velocity = new Vector2(horizontal*Time.fixedDeltaTime*speed, rb.velocity.y);
-
+            if (!isRope)
+            {
+                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
+            }
+            else {
+                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed/3, rb.velocity.y);
+            }
             //transform.localScale = new Vector3(horizontal, 1, 1);
             transform.rotation= Quaternion.Euler(new Vector3(0,horizontal>0?0:180,0));
         }
         //idle
-        else if(isGrounded)
+        else if(isGrounded && !isRope)
         {
             ChangeAnim("idle");
             rb.velocity = Vector2.zero;
+           
+        }
+        //Climbing
+       
+        if (Mathf.Abs(vertical) > 0.1f)
+        {
+            Climb();
         }
 
     }
@@ -97,6 +134,8 @@ public class PlayerController : CharacterController
     override public void OnInit()
     {
         base.OnInit();
+        HpRecover = 10;
+        TimeRecoverCount = TimeRecover;
         isAttack = false;
         transform.position = savePoint;
         ChangeAnim("idle");
@@ -132,31 +171,89 @@ public class PlayerController : CharacterController
 
     }
 
+    public void Sleep()
+    {
+        if (isGrounded && rb.velocity.x == 0)
+        {
+            isSleep = true;
+            ChangeAnim("sleep");
+        }
+        
+    }
+    public void WakeUp()
+    {
+        if (isSleep)
+        {
+            TimeRecoverCount = TimeRecover;
+            isSleep = false;
+            ChangeAnim("");
+            return;
+        }
+    }
     public void Attack() {
-        if (isAttack || isJumping || !isGrounded)
+        WakeUp();
+        if (isAttack || IsDead)
         {
             return;
         }
         isAttack = true;
-        ChangeAnim("attack");
+        if (!isGrounded)
+        {
+            ChangeAnim("jumpattack");
+        }
+        else
+        {
+            ChangeAnim("attack");
+        }
         ActiveAttack();
-        Invoke(nameof(ResetAttack), 0.5f);
-        Invoke(nameof(DeActiveAttack), 0.5f);
+        
     }
 
-    public void Throw() {
-        if (isAttack || isJumping || !isGrounded)
+    public void Attack1()
+    {
+        WakeUp();
+        if (isAttack || isJumping || !isGrounded || IsDead)
         {
             return;
         }
         isAttack = true;
-        ChangeAnim("throw");
+        ChangeAnim("attack1");
+        ActiveAttack();
+        
+    }
+    public void Attack2()
+    {
+        WakeUp();
+        if (isAttack || isJumping || !isGrounded || IsDead)
+        {
+            return;
+        }
+        isAttack = true;
+        ChangeAnim("attack2");
+        ActiveAttack();
+        
+    }
+    public void Throw() {
+        WakeUp();
+        if (isAttack  || IsDead)
+        {
+            return;
+        }
+        isAttack = true;
+        if (!isGrounded)
+        {
+            ChangeAnim("jumpthrow");
+        }
+        else { 
+            ChangeAnim("throw"); 
+        }
         Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
-        Invoke(nameof(ResetAttack), 0.5f);
+        Invoke(nameof(ResetAttack), 0.6f);
     }
 
     public void Jump() {
-        if (isJumping || !isGrounded)
+        WakeUp();
+        if (isJumping || !isGrounded || IsDead)
         {
             return;
         }
@@ -169,7 +266,15 @@ public class PlayerController : CharacterController
         isAttack = false;
         ChangeAnim("");
     }
-    
+    public void Climb()
+    {
+        if (isRope)
+        {
+            WakeUp();
+            ChangeAnim("climb");
+            rb.velocity = new Vector2(rb.velocity.x, vertical * Time.deltaTime * speed);
+        }
+    }
 
     internal void SavePoint()
     {
@@ -185,6 +290,8 @@ public class PlayerController : CharacterController
     private void ActiveAttack()
     {
         attackArea.SetActive(true);
+        Invoke(nameof(ResetAttack), 0.6f);
+        Invoke(nameof(DeActiveAttack), 0.6f);
     }
     private void DeActiveAttack()
     {
@@ -211,5 +318,19 @@ public class PlayerController : CharacterController
         }
     }
 
-    
+    private void OnTriggerStay2D(Collider2D collision)
+    {
+        if(collision.tag == "Rope")
+        {
+            isRope = true;
+        }
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "Rope")
+        {
+            isRope = false;
+        }
+    }
+
 }
