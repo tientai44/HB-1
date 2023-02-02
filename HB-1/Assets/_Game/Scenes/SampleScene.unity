@@ -11120,7 +11120,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &980452964
 RectTransform:
   m_ObjectHideFlags: 0
@@ -12183,7 +12183,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1285131361
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14143,7 +14143,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1599207824
 RectTransform:
   m_ObjectHideFlags: 0
@@ -15936,7 +15936,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1866393120
 RectTransform:
   m_ObjectHideFlags: 0
@@ -17703,7 +17703,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1979954011
 RectTransform:
   m_ObjectHideFlags: 0
@@ -18448,8 +18448,8 @@ CapsuleCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0.02716446, y: 0.014362971}
-  m_Size: {x: 0.2456716, y: 3.0178764}
+  m_Offset: {x: 0.02716446, y: -0.0022133193}
+  m_Size: {x: 0.2456716, y: 2.9847245}
   m_Direction: 0
 --- !u!212 &2042795648
 SpriteRenderer:

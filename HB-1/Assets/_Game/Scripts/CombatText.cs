@@ -9,7 +9,7 @@ public class CombatText : MonoBehaviour
     [SerializeField] TextMeshProUGUI hpText;
     public void OnInit(string damage)
     {
-        Debug.Log("CombatText");
+        //Debug.Log("CombatText");
         hpText.text = damage;
         Invoke(nameof(OnDespawn), 1f);
     }

@@ -9,7 +9,7 @@ public class AttackArea : MonoBehaviour
     {
         if (collision.tag == "Player" || collision.tag == "Enemy")
         {            
-            Debug.Log("Hit");
+            //Debug.Log("Hit");
             collision.GetComponent<CharacterController>().OnHit(30f);
            
         }

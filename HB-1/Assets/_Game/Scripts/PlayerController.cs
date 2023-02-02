@@ -2,6 +2,9 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Tilemaps;
+using UnityEngine.Windows;
+using Input = UnityEngine.Input;
 
 public class PlayerController : CharacterController
 {
@@ -16,8 +19,10 @@ public class PlayerController : CharacterController
     private bool isRope;
     private bool isJumping;
     private bool isAttack;
+    private bool isClimb;
+    private bool isGlide=false;
     private bool isSleep=false;
-    private bool isDeath=false;
+    //private bool isDeath=false;
     private int coin = 0;
     private float horizontal;
     private float vertical;
@@ -38,8 +43,22 @@ public class PlayerController : CharacterController
             return;
         }
         
-
+        
         isGrounded = CheckGrounded();
+        if(isGrounded&&isClimb)
+        {
+            Debug.Log("Stop Glide");
+            StopGlide();
+            
+        }
+        if(!isRope)
+        {
+            isClimb = false;
+            if (!isGlide)
+            {
+                rb.gravityScale = 1;
+            }
+        }
         horizontal = Input.GetAxisRaw("Horizontal");
         vertical = Input.GetAxisRaw("Vertical");
         // In attack, player can't move
@@ -58,7 +77,7 @@ public class PlayerController : CharacterController
                 Jump();
             }
             //run
-            if (Mathf.Abs(horizontal) > 0.1f && isGrounded)
+            if (Mathf.Abs(horizontal) > 0.1f && isGrounded &&!isClimb &&!isGlide)
             {
                 ChangeAnim("run");
             }
@@ -86,6 +105,15 @@ public class PlayerController : CharacterController
                 Sleep();
             }
         }
+        //Glide
+        if (Input.GetKeyDown(KeyCode.I))
+        {
+            Glide();
+        }
+        if (Input.GetKeyUp(KeyCode.I))
+        {
+            StopGlide();
+        }
         // Check Recovery
         if (isSleep)
         {
@@ -97,7 +125,7 @@ public class PlayerController : CharacterController
             TimeRecoverCount = TimeRecover;
         }
         // Check falling
-        if (rb.velocity.y < 0 && !isGrounded && !isRope)
+        if (rb.velocity.y < 0 && !isGrounded && !isRope && !isGlide)
         {
             ChangeAnim("fall");
             isJumping = false;
@@ -105,29 +133,33 @@ public class PlayerController : CharacterController
         // Moving
         if (Mathf.Abs(horizontal) > 0.1f)
         {
-            if (!isRope)
+            if (isClimb)
             {
-                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
+                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed/6, rb.velocity.y);
             }
             else {
-                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed/3, rb.velocity.y);
+                rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
             }
             //transform.localScale = new Vector3(horizontal, 1, 1);
             transform.rotation= Quaternion.Euler(new Vector3(0,horizontal>0?0:180,0));
         }
         //idle
-        else if(isGrounded && !isRope)
+        else if(isGrounded && !isClimb)
         {
             ChangeAnim("idle");
             rb.velocity = Vector2.zero;
            
         }
         //Climbing
-       
         if (Mathf.Abs(vertical) > 0.1f)
         {
             Climb();
         }
+        else if(isClimb)
+        {
+            rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed / 6, 0);
+        }
+        
 
     }
 
@@ -158,12 +190,12 @@ public class PlayerController : CharacterController
     {
 
         // Check Player on ground 
-        Debug.DrawLine(transform.position  , transform.position + Vector3.down * 1.1f, Color.red);
+        Debug.DrawLine(transform.position  , transform.position + Vector3.down * 1.12f, Color.red);
 
-        RaycastHit2D hit = Physics2D.Raycast(transform.position  , Vector2.down, 1.1f, groundLayer);
+        RaycastHit2D hit = Physics2D.Raycast(transform.position  , Vector2.down, 1.12f, groundLayer);
         if (hit.collider != null)
         {
-            if(isJumping)
+            if(isJumping && !isGlide)
                 return false;
             return true;
         }
@@ -186,7 +218,7 @@ public class PlayerController : CharacterController
         {
             TimeRecoverCount = TimeRecover;
             isSleep = false;
-            ChangeAnim("");
+            ChangeAnim("idle");
             return;
         }
     }
@@ -255,6 +287,7 @@ public class PlayerController : CharacterController
         WakeUp();
         if (isJumping || !isGrounded || IsDead)
         {
+            
             return;
         }
         isJumping = true;
@@ -270,12 +303,33 @@ public class PlayerController : CharacterController
     {
         if (isRope)
         {
+            rb.gravityScale = 0;
             WakeUp();
+            isClimb=true;
             ChangeAnim("climb");
             rb.velocity = new Vector2(rb.velocity.x, vertical * Time.deltaTime * speed);
         }
     }
-
+    public void Glide()
+    {
+        if (isGrounded)
+        {
+            return;
+        }
+        isGlide = true;
+        rb.gravityScale = 0.5f;
+        ChangeAnim("glide");
+    }
+    public void StopGlide()
+    {
+        if (!isGlide)
+        {
+            return;
+        }
+        isGlide = false;
+        rb.gravityScale = 1;
+        ChangeAnim("");
+    }
     internal void SavePoint()
     {
         Debug.Log("Get a save point");
@@ -311,6 +365,10 @@ public class PlayerController : CharacterController
             UIManager.instance.SetCoin(coin);
             Destroy(collision.gameObject);
         }
+        if (collision.tag == "HideMap")
+        {
+            collision.GetComponent<TilemapRenderer>().enabled = false;
+        }
         if (collision.tag == "DeathZone")
         {
             ChangeAnim("die");
@@ -331,6 +389,10 @@ public class PlayerController : CharacterController
         {
             isRope = false;
         }
+        if (collision.tag == "HideMap")
+        {
+            collision.GetComponent<TilemapRenderer>().enabled = true;
+        }
     }
-
+    
 }

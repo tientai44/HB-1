@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.Tilemaps;
 
 public class KunaiThrow : MonoBehaviour
 {
@@ -34,6 +35,10 @@ public class KunaiThrow : MonoBehaviour
             OnDeSpawn();
         }
         if(collision.tag == "Obstacle")
+        {
+            OnDeSpawn();
+        }
+        if (collision.tag == "HideMap"&& collision.GetComponent<TilemapRenderer>().enabled==true)
         {
             OnDeSpawn();
         }
