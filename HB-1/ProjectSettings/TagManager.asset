@@ -10,6 +10,7 @@ TagManager:
   - Enemy
   - Obstacle
   - Rope
+  - HideMap
   layers:
   - Default
   - TransparentFX

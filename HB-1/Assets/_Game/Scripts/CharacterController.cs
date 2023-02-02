@@ -9,12 +9,13 @@ public class CharacterController : MonoBehaviour
     [SerializeField] protected HealthBar healthBar;
     [SerializeField] protected CombatText combatTextPrefab;
     [SerializeField] protected CombatText combatTextRecoverPrefab;
+    [SerializeField] private float damage = 30;
     private float hp;
     private float timeRecover = 5.0f;
     [SerializeField] private float hpRecover = 0;
     private float timeRecoverCount;
     public bool IsDead => hp <= 0;
-
+    public float Damage { get => damage; set => damage = value; }
     public float HpRecover { get => hpRecover; set => hpRecover = value; }
     public float TimeRecover { get => timeRecover; set => timeRecover = value; }
     public float TimeRecoverCount { get => timeRecoverCount; set => timeRecoverCount = value; }
@@ -37,7 +38,7 @@ public class CharacterController : MonoBehaviour
     protected virtual void OnDeath()
     {
         ChangeAnim("die");
-        Invoke(nameof(OnDespawn), 2f);
+        Invoke(nameof(OnDespawn), 1f);
     }
     public void OnHit(float damage)
     {

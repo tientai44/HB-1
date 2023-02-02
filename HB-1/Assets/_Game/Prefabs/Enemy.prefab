@@ -143,6 +143,7 @@ MonoBehaviour:
   healthBar: {fileID: 0}
   combatTextPrefab: {fileID: -4303674423797491892, guid: 67b76926b8cd44544bc7948b656dde4e, type: 3}
   combatTextRecoverPrefab: {fileID: 5614587491074878202, guid: c52a9c069207de9408a7fc5b522e3f30, type: 3}
+  damage: 30
   hpRecover: 0
   attackRange: 2
   moveSpeed: 3
@@ -424,6 +425,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: abb818505f75925489903661775a5c67, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  characterController: {fileID: 7168232404199785736}
 --- !u!1 &7168232405781517753
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,10 @@ public class KunaiThrow : MonoBehaviour
     [SerializeField] GameObject hitVFX;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private float speed = 10.0f;
+    private PlayerController playerController;
+
+    public PlayerController PlayerController { get => playerController; set => playerController = value; }
+
     // Start is called before the first frame update
     void Start()
     {
@@ -30,7 +34,7 @@ public class KunaiThrow : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            collision.GetComponent<EnemyController>().OnHit(30f);
+            collision.GetComponent<EnemyController>().OnHit(playerController.Damage);
             Instantiate(hitVFX, transform.position, transform.rotation);
             OnDeSpawn();
         }

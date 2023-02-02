@@ -15,6 +15,7 @@ public class PlayerController : CharacterController
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float jumpForce=350;
     [SerializeField] private GameObject attackArea;
+    
     private bool isGrounded;
     private bool isRope;
     private bool isJumping;
@@ -29,6 +30,8 @@ public class PlayerController : CharacterController
 
 
     private Vector3 savePoint;
+
+    
 
     //private void Awake()
     //{
@@ -279,7 +282,8 @@ public class PlayerController : CharacterController
         else { 
             ChangeAnim("throw"); 
         }
-        Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
+        KunaiThrow kunai= Instantiate(kunaiPrefab,throwPoint.position,throwPoint.rotation);
+        kunai.PlayerController=this;
         Invoke(nameof(ResetAttack), 0.6f);
     }
 
@@ -352,6 +356,10 @@ public class PlayerController : CharacterController
         attackArea.SetActive(false);
     }
 
+    public void TeleTo(float posx,float posy)
+    {
+        transform.position = new Vector3(posx,posy,0);
+    }
     public void SetMove(float horizontal)
     {
         this.horizontal = horizontal;
