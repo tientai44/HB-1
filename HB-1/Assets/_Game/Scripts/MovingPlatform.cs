@@ -44,8 +44,7 @@ public class MovingPlatform : MonoBehaviour
     {
         if (collision.gameObject.tag == "Player")
         {
-            if(collision.collider.GetComponent<PlayerController>().CheckJumping())
-                return;
+            
             collision.transform.SetParent(null);
         }
     }

@@ -10,6 +10,7 @@ public class EnemyController : CharacterController
     [SerializeField] private float moveSpeed;
     [SerializeField] private Rigidbody2D rb;
     [SerializeField] private GameObject attackArea;
+    [SerializeField] private EnemySight enemySight;
     private IState currentState;
     private bool isRight=true;
     private CharacterController target;
@@ -106,8 +107,17 @@ public class EnemyController : CharacterController
         if (collision.tag == "EnemyWall")
         {
             ChangeDirection(!isRight);
+            enemySight.gameObject.SetActive(false);
         }
-       
+        
+    }
+    private void OnTriggerExit2D(Collider2D collision)
+    {
+        if (collision.tag == "EnemyWall")
+        {
+            enemySight.gameObject.SetActive(true);
+            target = null;
+        }
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {

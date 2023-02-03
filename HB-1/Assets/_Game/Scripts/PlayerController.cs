@@ -15,6 +15,7 @@ public class PlayerController : CharacterController
     [SerializeField] private float speed = 5.0f;
     [SerializeField] private float jumpForce=350;
     [SerializeField] private GameObject attackArea;
+
     
     private bool isGrounded;
     private bool isRope;
@@ -46,13 +47,12 @@ public class PlayerController : CharacterController
             return;
         }
         
-        
         isGrounded = CheckGrounded();
-        if(isGrounded&&isClimb)
+        if(isGrounded&&isGlide)
         {
             Debug.Log("Stop Glide");
             StopGlide();
-            
+            return;
         }
         if(!isRope)
         {
@@ -200,6 +200,10 @@ public class PlayerController : CharacterController
         {
             if(isJumping && !isGlide)
                 return false;
+            if (isClimb)
+            {
+                return false;
+            }
             return true;
         }
         return false;

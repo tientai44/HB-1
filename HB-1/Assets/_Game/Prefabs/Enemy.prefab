@@ -144,11 +144,13 @@ MonoBehaviour:
   combatTextPrefab: {fileID: -4303674423797491892, guid: 67b76926b8cd44544bc7948b656dde4e, type: 3}
   combatTextRecoverPrefab: {fileID: 5614587491074878202, guid: c52a9c069207de9408a7fc5b522e3f30, type: 3}
   damage: 30
+  armor: 0
   hpRecover: 0
   attackRange: 2
   moveSpeed: 3
   rb: {fileID: 7168232404199785737}
   attackArea: {fileID: 7168232405439260381}
+  enemySight: {fileID: 7168232405089448883}
 --- !u!1 &7168232405089448886
 GameObject:
   m_ObjectHideFlags: 0
@@ -249,7 +251,7 @@ BoxCollider2D:
   m_IsTrigger: 1
   m_UsedByEffector: 0
   m_UsedByComposite: 0
-  m_Offset: {x: 0, y: 0}
+  m_Offset: {x: 0.012179717, y: 0}
   m_SpriteTilingProperty:
     border: {x: 0, y: 0, z: 0, w: 0}
     pivot: {x: 0.5, y: 0.5}
@@ -260,7 +262,7 @@ BoxCollider2D:
     adaptiveTiling: 0
   m_AutoTiling: 0
   serializedVersion: 2
-  m_Size: {x: 1, y: 1}
+  m_Size: {x: 0.67957103, y: 1}
   m_EdgeRadius: 0
 --- !u!50 &7168232405089448880
 Rigidbody2D:

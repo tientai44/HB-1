@@ -11,7 +11,10 @@ public class AttackArea : MonoBehaviour
         if (collision.tag == "Player" || collision.tag == "Enemy")
         {
             //Debug.Log("Hit");
-            collision.GetComponent<CharacterController>().OnHit(characterController.Damage);
+            float armor = collision.GetComponent<CharacterController>().Armor;
+            float damage = characterController.Damage - armor;
+            damage = damage > 0 ? damage : 0;
+            collision.GetComponent<CharacterController>().OnHit(damage);
         }
     }
     //private void OnCollisionEnter2D(Collision2D collision)
