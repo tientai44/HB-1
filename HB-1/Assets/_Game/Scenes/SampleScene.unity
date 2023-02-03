@@ -218,6 +218,7 @@ MonoBehaviour:
   combatTextRecoverPrefab: {fileID: 0}
   damage: 30
   armor: 0
+  undeadCount: 0
   hpRecover: 0
   attackRange: 2
   moveSpeed: 3
@@ -12649,6 +12650,7 @@ MonoBehaviour:
   combatTextRecoverPrefab: {fileID: 5614587491074878202, guid: c52a9c069207de9408a7fc5b522e3f30, type: 3}
   damage: 30
   armor: 0
+  undeadCount: 1
   hpRecover: 10
   rb: {fileID: 1170622862}
   groundLayer:
@@ -21826,6 +21828,7 @@ MonoBehaviour:
   combatTextRecoverPrefab: {fileID: 5614587491074878202, guid: c52a9c069207de9408a7fc5b522e3f30, type: 3}
   damage: 50
   armor: 15
+  undeadCount: 0
   hpRecover: 0
   attackRange: 3
   moveSpeed: 3
