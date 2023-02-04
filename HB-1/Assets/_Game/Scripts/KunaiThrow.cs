@@ -34,7 +34,10 @@ public class KunaiThrow : MonoBehaviour
     {
         if (collision.tag == "Enemy")
         {
-            collision.GetComponent<EnemyController>().OnHit(playerController.Damage);
+            float armor = collision.GetComponent<CharacterController>().Armor;
+            float damage = playerController.Damage - armor;
+            damage = damage > 0 ? damage : 0;
+            collision.GetComponent<EnemyController>().OnHit(damage);
             Instantiate(hitVFX, transform.position, transform.rotation);
             OnDeSpawn();
         }

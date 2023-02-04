@@ -21,7 +21,6 @@ public class AttackState : IState
     {
         timer += Time.deltaTime;
         
-        
         if(timer > 1.5f)
         {
             enemy.ChangeState(new PatrolState());

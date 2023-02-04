@@ -14,7 +14,7 @@ public class EnemyController : CharacterController
     private IState currentState;
     private bool isRight=true;
     private CharacterController target;
-
+    private bool isAttack=false;
     public CharacterController Target { get => target; set => target = value; }
 
     public void Update()
@@ -56,7 +56,13 @@ public class EnemyController : CharacterController
 
     public void Attack()
     {
+        if (isAttack)
+        {
+            return;
+        }
         ChangeAnim("attack");
+        isAttack = true;
+        Invoke(nameof(UnAttack),0.5f);
         rb.velocity = Vector2.zero;
         ActiveAttack();
         Invoke(nameof(DeActiveAttack), 0.5f);
@@ -101,6 +107,10 @@ public class EnemyController : CharacterController
         {
             return false;
         }
+    }
+    private void UnAttack()
+    {
+        isAttack = false;
     }
     private void OnTriggerEnter2D(Collider2D collision)
     {

@@ -16,7 +16,7 @@ public class PlayerController : CharacterController
     [SerializeField] private float jumpForce=350;
     [SerializeField] private GameObject attackArea;
 
-    
+    private int comboCount = 0;
     private bool isGrounded;
     private bool isRope;
     private bool isJumping;
@@ -87,16 +87,31 @@ public class PlayerController : CharacterController
             //attack
             if (Input.GetKeyDown(KeyCode.J))
             {
-                Attack();
+                if (comboCount == 0)
+                {
+                    Attack();
+                    comboCount++;
+                    Invoke(nameof(ResetCombo), 2f);
+                }
+                else if(comboCount == 1)
+                {
+                    Attack1();
+                    comboCount++;
+                }
+                else if (comboCount == 2)
+                {
+                    Attack2();
+                    comboCount=0;
+                }
             }
-            if (Input.GetKeyDown(KeyCode.K))
-            {
-                Attack1();
-            }
-            if (Input.GetKeyDown(KeyCode.L))
-            {
-                Attack2();
-            }
+            //if (Input.GetKeyDown(KeyCode.K))
+            //{
+            //    Attack1();
+            //}
+            //if (Input.GetKeyDown(KeyCode.L))
+            //{
+            //    Attack2();
+            //}
             //throw
             if (Input.GetKeyDown(KeyCode.V))
             {
@@ -165,7 +180,7 @@ public class PlayerController : CharacterController
         
 
     }
-
+    
     override public void OnInit()
     {
         base.OnInit();
@@ -301,6 +316,10 @@ public class PlayerController : CharacterController
         isJumping = true;
         ChangeAnim("jump");
         rb.AddForce(jumpForce * Vector2.up);
+    }
+    private void ResetCombo()
+    {
+        comboCount = 0;
     }
     private void ResetAttack()
     {
