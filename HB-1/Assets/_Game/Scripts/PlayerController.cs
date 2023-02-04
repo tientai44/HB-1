@@ -32,7 +32,9 @@ public class PlayerController : CharacterController
 
     private Vector3 savePoint;
 
-    
+    public float Speed { get => speed; set => speed = value; }
+
+
 
     //private void Awake()
     //{
@@ -339,7 +341,7 @@ public class PlayerController : CharacterController
     }
     public void Glide()
     {
-        if (isGrounded)
+        if (isGrounded||isGlide)
         {
             return;
         }
@@ -387,6 +389,7 @@ public class PlayerController : CharacterController
     {
         this.horizontal = horizontal;
     }
+    
     private void OnTriggerEnter2D(Collider2D collision)
     {
         if (collision.tag == "Coin")
