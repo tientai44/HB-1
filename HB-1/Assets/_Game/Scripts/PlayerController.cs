@@ -24,15 +24,23 @@ public class PlayerController : CharacterController
     private bool isClimb;
     private bool isGlide=false;
     private bool isSleep=false;
+    private bool isFreeze = false;
+    private float freezeTimer = 0;
+    private float speedDownFreeze = 0;
     //private bool isDeath=false;
     private int coin = 0;
+    
     private float horizontal;
     private float vertical;
+    
 
 
     private Vector3 savePoint;
 
     public float Speed { get => speed; set => speed = value; }
+    public bool IsFreeze { get => isFreeze; set => isFreeze = value; }
+    public float FreezeTimer { get => freezeTimer; set => freezeTimer = value; }
+    public float SpeedDownFreeze { get => speedDownFreeze; set => speedDownFreeze = value; }
 
 
 
@@ -43,12 +51,22 @@ public class PlayerController : CharacterController
 
     // Update is called once per frame
     void Update()
-    { 
+    {
+        
         if (IsDead)
         {
             return;
         }
-        
+        if (isFreeze)
+        {
+            FreezeTimer -= Time.deltaTime;
+        }
+        if (FreezeTimer < 0)
+        {
+            isFreeze = false;
+            speed += speedDownFreeze;
+            speedDownFreeze = 0;
+        }
         isGrounded = CheckGrounded();
         if(isGrounded&&isGlide)
         {
@@ -153,11 +171,12 @@ public class PlayerController : CharacterController
         // Moving
         if (Mathf.Abs(horizontal) > 0.1f)
         {
-            if (isClimb)
+            
+            if (isClimb && speed>0)
             {
                 rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed/6, rb.velocity.y);
             }
-            else {
+            else if( speed > 0) {
                 rb.velocity = new Vector2(horizontal * Time.fixedDeltaTime * speed, rb.velocity.y);
             }
             //transform.localScale = new Vector3(horizontal, 1, 1);

@@ -4,6 +4,9 @@ U: Ngủ để hồi máu
 I: Giữ để Thả dù
 J: Tấn công ấn nhiều lần liên tiếp để tạo combo
 V: Phi tiêu
-
+Ăn nấm hồng để tăng dame
+Băng sẽ làm giảm tốc trong một thời gian
+Bẫy sập có thể gây game
 Một vài tương tác nhẹ:
-Khi đi qua thác nước sẽ bị giảm tốc độ
+Khi đi trong thác nước sẽ bị giảm tốc độ
+
