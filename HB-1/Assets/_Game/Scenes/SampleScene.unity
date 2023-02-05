@@ -13287,6 +13287,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Freeze (1)
       objectReference: {fileID: 0}
+    - target: {fileID: 8158755874042771148, guid: b4851aa7d010f4d4a8a80e825712e1cd, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1170622864}
     - target: {fileID: 8158755874042771149, guid: b4851aa7d010f4d4a8a80e825712e1cd, type: 3}
       propertyPath: m_RootOrder
       value: 0
@@ -16729,6 +16733,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Freeze (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 8158755874042771148, guid: b4851aa7d010f4d4a8a80e825712e1cd, type: 3}
+      propertyPath: player
+      value: 
+      objectReference: {fileID: 1170622864}
     - target: {fileID: 8158755874042771149, guid: b4851aa7d010f4d4a8a80e825712e1cd, type: 3}
       propertyPath: m_RootOrder
       value: 2
