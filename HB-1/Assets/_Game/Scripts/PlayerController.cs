@@ -20,8 +20,8 @@ public class PlayerController : CharacterController
     private bool isGrounded;
     private bool isRope;
     private bool isJumping;
-    private bool isAttack;
-    private bool isClimb;
+    private bool isAttack=false;
+    private bool isClimb=false;
     private bool isGlide=false;
     private bool isSleep=false;
     private bool isFreeze = false;
@@ -100,7 +100,7 @@ public class PlayerController : CharacterController
                 Jump();
             }
             //run
-            if (Mathf.Abs(horizontal) > 0.1f && isGrounded &&!isClimb &&!isGlide)
+            if (Mathf.Abs(horizontal) > 0.1f&& isGrounded &&!isClimb &&!isGlide)
             {
                 ChangeAnim("run");
             }
@@ -163,9 +163,12 @@ public class PlayerController : CharacterController
             TimeRecoverCount = TimeRecover;
         }
         // Check falling
-        if (rb.velocity.y < 0 && !isGrounded && !isRope && !isGlide)
+        if (rb.velocity.y < 0 && !isGrounded )
         {
-            ChangeAnim("fall");
+            if (!isRope && !isGlide)
+            {
+                ChangeAnim("fall");
+            }
             isJumping = false;
         }
         // Moving
@@ -234,7 +237,7 @@ public class PlayerController : CharacterController
         RaycastHit2D hit = Physics2D.Raycast(transform.position  , Vector2.down, 1.12f, groundLayer);
         if (hit.collider != null)
         {
-            if(isJumping && !isGlide)
+            if(isJumping)
                 return false;
             if (isClimb)
             {
@@ -331,7 +334,6 @@ public class PlayerController : CharacterController
         WakeUp();
         if (isJumping || !isGrounded || IsDead)
         {
-            
             return;
         }
         isJumping = true;
