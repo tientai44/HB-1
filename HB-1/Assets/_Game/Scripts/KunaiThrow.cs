@@ -23,7 +23,7 @@ public class KunaiThrow : MonoBehaviour
     public void OnInit()
     {
         rb.velocity = transform.right * speed;
-        Invoke(nameof(OnDeSpawn), 4f);
+        Invoke(nameof(OnDeSpawn), 1f);
     }
 
     public void OnDeSpawn()
