@@ -270,6 +270,7 @@ public class PlayerController : CharacterController
     }
     public void Attack() {
         WakeUp();
+        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
         if (isAttack || IsDead)
         {
             return;
@@ -277,6 +278,7 @@ public class PlayerController : CharacterController
         isAttack = true;
         if (!isGrounded)
         {
+            comboCount = 0;
             ChangeAnim("jumpattack");
         }
         else
@@ -290,6 +292,8 @@ public class PlayerController : CharacterController
     public void Attack1()
     {
         WakeUp();
+        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
+
         if (isAttack || isJumping || !isGrounded || IsDead)
         {
             return;
@@ -302,6 +306,8 @@ public class PlayerController : CharacterController
     public void Attack2()
     {
         WakeUp();
+        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
+
         if (isAttack || isJumping || !isGrounded || IsDead)
         {
             return;

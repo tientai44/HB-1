@@ -724,7 +724,7 @@ Transform:
   - {fileID: 873230917}
   - {fileID: 211510189}
   m_Father: {fileID: 0}
-  m_RootOrder: 1
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &231378788 stripped
 Transform:
@@ -13973,7 +13973,7 @@ Transform:
   - {fileID: 1069733292}
   - {fileID: 1413051181}
   m_Father: {fileID: 0}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &980452963
 GameObject:
@@ -14877,7 +14877,7 @@ Transform:
   - {fileID: 729973242}
   - {fileID: 543326860}
   m_Father: {fileID: 0}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!50 &1170622862
 Rigidbody2D:
@@ -14895,7 +14895,7 @@ Rigidbody2D:
   m_LinearDrag: 0
   m_AngularDrag: 0.05
   m_GravityScale: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8c6101d11a2deeb46a183832d4f256de, type: 2}
   m_Interpolate: 0
   m_SleepingMode: 1
   m_CollisionDetection: 0
@@ -14909,7 +14909,7 @@ CapsuleCollider2D:
   m_GameObject: {fileID: 1170622859}
   m_Enabled: 1
   m_Density: 1
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 6200000, guid: 8c6101d11a2deeb46a183832d4f256de, type: 2}
   m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
@@ -23624,7 +23624,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7139976746010776382, guid: 8336bc4d291417c44818fdf885e51c1d, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 52.72
+      value: 49.07
       objectReference: {fileID: 0}
     - target: {fileID: 7139976746010776382, guid: 8336bc4d291417c44818fdf885e51c1d, type: 3}
       propertyPath: m_LocalPosition.y
