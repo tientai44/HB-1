@@ -1,0 +1,19 @@
+fileFormatVersion: 2
+guid: b4e5df64274b8b84a920257bb3390413
+MonoImporter:
+  externalObjects: {}
+  serializedVersion: 2
+  defaultReferences:
+  - audioCoin: {instanceID: 0}
+  - audioAttack: {fileID: 8300000, guid: 8cdfbb8c981c77049a6fcca6f1ab3b88, type: 3}
+  - audioDie: {instanceID: 0}
+  - audioTeleport: {instanceID: 0}
+  - audioJump: {instanceID: 0}
+  - audioMove: {instanceID: 0}
+  - audioThrow: {instanceID: 0}
+  - audioOnHit: {instanceID: 0}
+  executionOrder: 0
+  icon: {instanceID: 0}
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 

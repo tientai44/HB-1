@@ -270,7 +270,7 @@ public class PlayerController : CharacterController
     }
     public void Attack() {
         WakeUp();
-        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
+        AudioManager.GetInstance().PlaySound(AudioManager.GetInstance().audioAttack);
         if (isAttack || IsDead)
         {
             return;
@@ -292,7 +292,7 @@ public class PlayerController : CharacterController
     public void Attack1()
     {
         WakeUp();
-        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
+        AudioManager.GetInstance().PlaySound(AudioManager.GetInstance().audioAttack);
 
         if (isAttack || isJumping || !isGrounded || IsDead)
         {
@@ -306,7 +306,7 @@ public class PlayerController : CharacterController
     public void Attack2()
     {
         WakeUp();
-        GameManager.GetInstance().PlaySound(GameManager.GetInstance().audioAttack);
+        AudioManager.GetInstance().PlaySound(AudioManager.GetInstance().audioAttack);
 
         if (isAttack || isJumping || !isGrounded || IsDead)
         {

@@ -6,20 +6,10 @@ using UnityEngine.SceneManagement;
 
 public class GameManager : GOSingleton<GameManager>
 {
-    public List<AudioClip> audioMenu;
-    public AudioClip audioCoin;
-    public AudioClip audioAttack;
-    public AudioClip audioDie;
-    public AudioClip audioTeleport;
-    public AudioClip audioJump;
-    public AudioClip audioMove;
-    public AudioClip audioThrow;
-    public AudioClip audioOnHit;
-    private AudioSource audioCurrent;
+    
     private void Start()
     {
         GetInstance();
-        audioCurrent = GetComponent<AudioSource>();
     }
     public void Goto(int level)
     {
@@ -31,10 +21,6 @@ public class GameManager : GOSingleton<GameManager>
         Application.Quit();
     }
 
-    public void PlaySound(AudioClip audioClip)
-    {
-        audioCurrent.clip = audioClip;
-        audioCurrent.Play();
-    }
+   
 
 }
