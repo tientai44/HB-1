@@ -34,11 +34,9 @@ public class AudioManager : GOSingleton<AudioManager>
         flag = flag==true?false:true;
         if (flag == true) { 
             audioGame.Play();
-            sliderAudioGame.GetComponent<Slider>().value = 0.5f;
         
         } else { 
             audioGame.Stop();
-            sliderAudioGame.GetComponent<Slider>().value = 0;
         }
 
     }
@@ -46,15 +44,6 @@ public class AudioManager : GOSingleton<AudioManager>
     public void SetAudioGame()
     {
         audioGame.volume = sliderAudioGame.GetComponent<Slider>().value;
-        if (audioGame.volume > 0)
-        {
-            flag = true;
-            audioGame.Play();
-        }
-        else
-        {
-            flag = false;
-            audioGame.Stop();
-        }
+        
     }
 }
